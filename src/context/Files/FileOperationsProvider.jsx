@@ -4,16 +4,13 @@ import {useStorageNavigation} from "../Storage/StorageNavigationProvider.jsx";
 import {sendMoveObject} from "../../services/fetch/auth/storage/SendMoveObject.js";
 import {extractSimpleName} from "../../services/util/Utils.js";
 import {useStorageSelection} from "../Storage/StorageSelectionProvider.jsx";
-import {sendCopyObject} from "../../services/fetch/auth/storage/SendCopyObjects.js";
 import {nanoid} from 'nanoid';
 import {sendDownloadFile} from "../../services/fetch/auth/storage/SendDownloadFIle.js";
 import bytes from "bytes";
 import RenameModal from "../../modals/FileChange/RenameModal.jsx";
 import {sendUpload} from "../../services/fetch/auth/storage/SendUploadFIle.js";
-import {sendGetObjectStats} from "../../services/fetch/auth/storage/SendGetObjectStats.js";
 import {useNotification} from "../Notification/NotificationProvider.jsx";
 import StorageExceedException from "../../exception/StorageExceedException.jsx";
-import NotFoundException from "../../exception/NotFoundException.jsx";
 
 const FileOperationsContext = createContext();
 
@@ -23,7 +20,7 @@ export const useStorageOperations = () => useContext(FileOperationsContext);
 export const FileOperationsProvider = ({children}) => {
 
     const {loadFolder, currentPath, getObjectByPath, folderContent, currentPathRef} = useStorageNavigation();
-    const {isCopyMode, isCutMode, bufferIds, endCopying, endCutting, selectedIds} = useStorageSelection();
+    const { isCutMode, bufferIds, endCopying, endCutting, selectedIds} = useStorageSelection();
 
     const [tasks, setTasks] = useState([]);
     const [newTasksAdded, setNewTasksAdded] = useState(false);
@@ -313,16 +310,11 @@ export const FileOperationsProvider = ({children}) => {
 
         try {
             for (const task of pendingTasks) {
-
-
                 if (task.operation.type === "delete") {
                     await executeDeleteTask(task);
                 }
                 if (task.operation.type === "move") {
                     await executeMoveTask(task);
-                }
-                if (task.operation.type === "copy") {
-                    await executeCopyTask(task);
                 }
 
             }
@@ -355,26 +347,6 @@ export const FileOperationsProvider = ({children}) => {
 
     }
 
-    async function executeCopyTask(task) {
-        try {
-            updateTask(task, "progress", "Копируем...")
-            await sendCopyObject(task.operation.source, task.operation.target);
-            updateTask(task, "completed", "Копирование успешно выполнено")
-
-        } catch (e) {
-
-            switch (true) {
-                case e instanceof StorageExceedException:
-                    updateTask(task, "error", e.message);
-                    throw e;
-                default:
-                    updateTask(task, "error", e.message);
-
-            }
-        }
-
-    }
-
     const executeDeleteTask = async (task) => {
         try {
             updateTask(task, "progress", "Удаляем...");
@@ -391,7 +363,6 @@ export const FileOperationsProvider = ({children}) => {
             return;
         }
 
-
         if (checkConflicts(bufferIds)) {
             return;
         }
@@ -400,11 +371,6 @@ export const FileOperationsProvider = ({children}) => {
             moveObjects(bufferIds, currentPath);
             endCutting();
         }
-        if (isCopyMode) {
-            copyObjects(bufferIds, currentPath);
-            endCopying();
-        }
-
     }
 
 
@@ -423,10 +389,7 @@ export const FileOperationsProvider = ({children}) => {
         if (isCutMode) {
             moveObjectInternal(bufferIds, currentPath + newName);
             endCutting();
-        } else if (isCopyMode) {
-            copyObjectInternal(bufferIds, currentPath + newName);
-            endCopying();
-        } else {
+        }  else {
             const path = conflictedIds[0];
             let sep = path.lastIndexOf("/", path.length - 2);
             const newPath = path.substring(0, sep + 1) + newName;
@@ -467,7 +430,6 @@ export const FileOperationsProvider = ({children}) => {
 
             deleteObject,
             moveObjects,
-            copyObjects,
             pasteObjects,
             downloadObjects,
             renameObject,

@@ -11,7 +11,7 @@ import {useStorageOperations} from "../../../context/Files/FileOperationsProvide
 import ContentCutIcon from "@mui/icons-material/ContentCut";
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import RenameModal from "../../../modals/FileChange/RenameModal.jsx";
-import {ContentCopy, ContentCut, ContentPaste} from "@mui/icons-material";
+import {ContentCut, ContentPaste} from "@mui/icons-material";
 import {isMobile} from "react-device-detect";
 import {useStorageNavigation} from "../../../context/Storage/StorageNavigationProvider.jsx";
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
@@ -28,7 +28,6 @@ export const SelectHeader = () => {
         selectedIds,
         setSelectedIds,
         startCutting,
-        isCopyMode,
         isCutMode
     } = useStorageSelection();
 
@@ -137,7 +136,7 @@ export const SelectHeader = () => {
             setSelectionMode(true);
         }
 
-        if (selectableItem && selectedIds.length === 0 && !isCutMode && !isCopyMode) {
+        if (selectableItem && selectedIds.length === 0 && !isCutMode ) {
             setSelectedIds([selectableItem.dataset.id]);
             setSelectionMode(true);
 
@@ -149,7 +148,7 @@ export const SelectHeader = () => {
 
         const anchorElement = createAnchorElement(container, relativeX, relativeY);
         setAnchorEl2(anchorElement);
-    }, [selectedIds, isCutMode, isCopyMode, createAnchorElement]);
+    }, [selectedIds, isCutMode, createAnchorElement]);
 
     useEffect(() => {
         if (!isMob) {
@@ -364,7 +363,7 @@ export const SelectHeader = () => {
                     }}
                 >
                     <MenuItem
-                        disabled={selectedIds.length === 0 || isCopyMode}
+                        disabled={selectedIds.length === 0 }
                         onClick={handleCut}
                     >
                         <ListItemIcon>
@@ -377,7 +376,7 @@ export const SelectHeader = () => {
                     </MenuItem>
 
                     <MenuItem
-                        disabled={!isCopyMode && !isCutMode || isSearchMode}
+                        disabled={ !isCutMode || isSearchMode}
                         onClick={handlePaste}
                     >
                         <ListItemIcon>

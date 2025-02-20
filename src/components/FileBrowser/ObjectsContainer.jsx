@@ -70,13 +70,6 @@ export const ObjectsContainer = () => {
             }
         }
 
-        if ((event.ctrlKey || event.metaKey) && (key === "c" || key === "с" || key === "C" || key === "С")) {
-            event.preventDefault();
-            if (selectedIds.length > 0) {
-                startCopying();
-            }
-        }
-
         if ((event.ctrlKey || event.metaKey) && (key === "x" || key === "X" || key === "Ч" || key === "ч")) {
             event.preventDefault();
 
