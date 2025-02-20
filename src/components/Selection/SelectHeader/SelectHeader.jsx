@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import {useStorageSelection} from "../../../context/Storage/StorageSelectionProvider.jsx";
 import {useStorageOperations} from "../../../context/Files/FileOperationsProvider.jsx";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import RenameModal from "../../../modals/FileChange/RenameModal.jsx";
@@ -16,7 +15,6 @@ import {ContentCopy, ContentCut, ContentPaste} from "@mui/icons-material";
 import {isMobile} from "react-device-detect";
 import {useStorageNavigation} from "../../../context/Storage/StorageNavigationProvider.jsx";
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-
 
 
 export const SelectHeader = () => {
@@ -30,7 +28,6 @@ export const SelectHeader = () => {
         selectedIds,
         setSelectedIds,
         startCutting,
-        startCopying,
         isCopyMode,
         isCutMode
     } = useStorageSelection();
@@ -73,12 +70,6 @@ export const SelectHeader = () => {
         setSelectedIds([]);
         setAnchorEl2(null);
     }
-
-    const handleCopy = () => {
-        startCopying();
-        setAnchorEl2(null);
-    }
-
 
     const handleCut = () => {
         startCutting();
@@ -319,19 +310,6 @@ export const SelectHeader = () => {
                         <ContentCutIcon sx={{fontSize: '20px'}}/>
                     </IconButton>
 
-                    <IconButton
-                        onClick={startCopying}
-                        sx={{
-
-                            width: '35px',
-                            height: '35px',
-                            color: 'white',
-                            userSelect: 'none'
-
-                        }}
-                    >
-                        <ContentCopyIcon sx={{fontSize: '20px'}}/>
-                    </IconButton>
 
 
                     <IconButton
@@ -375,7 +353,6 @@ export const SelectHeader = () => {
                 }}
 
             >
-                {/*//todo вызов контекстного меню без выделения - сначала выделить.*/}
                 <List
                     sx={{
                         width: 250,
@@ -396,18 +373,6 @@ export const SelectHeader = () => {
                         <ListItemText>Вырезать</ListItemText>
                         <Typography variant="body2" sx={{color: 'text.secondary'}}>
                             Ctrl+X
-                        </Typography>
-                    </MenuItem>
-                    <MenuItem
-                        disabled={selectedIds.length === 0}
-                        onClick={handleCopy}
-                    >
-                        <ListItemIcon>
-                            <ContentCopy fontSize="small"/>
-                        </ListItemIcon>
-                        <ListItemText>Копировать</ListItemText>
-                        <Typography variant="body2" sx={{color: 'text.secondary'}}>
-                            Ctrl+C
                         </Typography>
                     </MenuItem>
 

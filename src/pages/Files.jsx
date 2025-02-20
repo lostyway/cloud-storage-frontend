@@ -1,13 +1,12 @@
 import {Box, CircularProgress, Container} from "@mui/material";
 import {useStorageNavigation} from "../context/Storage/StorageNavigationProvider.jsx";
+import * as React from "react";
 import {useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ObjectsContainer} from "../components/FileBrowser/ObjectsContainer.jsx";
 import {FileBrowserHeader} from "../components/FileBrowserHeader/FileBrowserHeader.jsx";
 import {FileTasksModal} from "../modals/FileTasksModal/FileTasksModal.jsx";
-import * as React from "react";
 import {FileUploadDraggableArea} from "../components/InputElements/Upload/FileUploadDraggableArea.jsx";
-import {CapacityModal} from "../modals/CapacityModal/CapacityModal.jsx";
 import {SearchBrowserHeader} from "../components/SearchBrowserHeader/SearchBrowserHeader.jsx";
 
 const LoadingBox = () => {
@@ -87,7 +86,6 @@ export default function Files() {
                                      setIsDragging={setIsDragging}/>
 
             <FileTasksModal/>
-            <CapacityModal/>
         </Box>
     )
 }

@@ -169,7 +169,6 @@ export const FileOperationsProvider = ({children}) => {
         }
         setTimeout(() => {
             loadFolder(currPath);
-            updateStorageUsed();
         }, 300);
 
         setTaskRunning(false);
@@ -334,7 +333,6 @@ export const FileOperationsProvider = ({children}) => {
             }
             clearTasks();
         }
-        updateStorageUsed();
         setTaskRunning(false);
     }
 
@@ -457,26 +455,6 @@ export const FileOperationsProvider = ({children}) => {
         };
     }, [tasks]);
 
-    const [storageUsed, setStorageUsed] = React.useState(0);
-
-    const updateStorageUsed = async () => {
-        try {
-            let stats = await sendGetObjectStats("");
-            setStorageUsed(stats.size);
-        } catch (e) {
-            switch (true) {
-                case e instanceof NotFoundException:
-                    setStorageUsed(0);
-            }
-        }
-
-    }
-
-    useEffect(() => {
-        updateStorageUsed();
-
-    }, [])
-
     return (<FileOperationsContext.Provider
         value={{
             tasks,
@@ -493,9 +471,7 @@ export const FileOperationsProvider = ({children}) => {
             pasteObjects,
             downloadObjects,
             renameObject,
-            uploadObjects,
-
-            storageUsed
+            uploadObjects
         }}>
         {children}
         <RenameModal selectedIds={conflictedIds}

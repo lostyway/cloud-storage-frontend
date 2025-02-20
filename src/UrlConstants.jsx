@@ -1,7 +1,7 @@
 const isProduction = import.meta.env.MODE === "production"; // Определяем режим окружения
 
 
-export const API_BASE_URL = isProduction ? "" :
+export const API_BASE_URL = isProduction ? window.APP_CONFIG.baseUrl :
     "http://192.168.0.190:8080"
 ;
 
@@ -16,8 +16,9 @@ export const API_LOGOUT = API_BASE_URL + API_CONTEXT + '/auth/sign-out';
 
 export const API_DIRECTORY = API_BASE_URL + API_CONTEXT + '/directory';
 
+export const API_FILES = API_BASE_URL + API_CONTEXT + '/resource';
 
-export const API_FILES = API_BASE_URL + API_CONTEXT + '/resources';
+
 export const API_MOVE_FILES = API_FILES + '/move';
 export const API_COPY_FILES = API_FILES + '/copy';
 export const API_DOWNLOAD_FILES  = API_FILES + '/download';

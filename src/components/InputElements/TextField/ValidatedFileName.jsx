@@ -3,23 +3,40 @@ import * as React from "react";
 import {useEffect} from "react";
 
 
-export default function ValidatedFileName({filename, setFilename, filenameError, setFilenameError, label='Название'}) {
+export default function ValidatedFileName({
+                                              filename,
+                                              setFilename,
+                                              filenameError,
+                                              setFilenameError,
+                                              label = 'Название'
+                                          }) {
+
+    const minLength = window.APP_CONFIG.validFolderName.minLength;
+    const maxLength = window.APP_CONFIG.validFolderName.maxLength;
+    const passwordPattern = RegExp(window.APP_CONFIG.validFolderName.pattern);
+
 
     const validateUsername = (value) => {
         let isValid = true;
         let errMessage = '';
 
         if (value && value.length === 0) {
-            errMessage = 'Имя пользователя не должно быть пустым. ';
+            errMessage = 'Имя не должно быть пустым. ';
             isValid = false;
         }
 
-        if (value && value.length > 250) {
-            errMessage = 'Имя пользователя не должно быть больше 250 символов. ';
+        if (value && value.length < minLength) {
+            errMessage = 'Минимальная длина имени ' + minLength + ' символов. ';
             isValid = false;
         }
 
-        if (value && !/^[^/\\:*?"<>|]+$/.test(value)) {
+
+        if (value && value.length > maxLength) {
+            errMessage += 'Максимальная длина имени ' + maxLength + ' символов. ';
+            isValid = false;
+        }
+
+        if (value && !passwordPattern.test(value)) {
             errMessage += 'Недопустимые символы в имени. ';
             isValid = false;
         }

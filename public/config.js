@@ -3,6 +3,10 @@ window.APP_CONFIG = {
     //ссылка на ваш гитхаб репозиторий с проектом
     githubLink: "https://gist.github.com/zhukovsd/1052313b231bb1eebd5b910990ee1050",
 
+    //адрес вашего бэка. если пустой - значит на одном url с одним портом.
+    //если запускаете бэк и фронт через докер compose - тут ставите имя бэка в докер сети
+    baseUrl: "",
+
     //API префикс вашего бэка
     baseApi: "/api",
 
@@ -19,18 +23,25 @@ window.APP_CONFIG = {
     validateLoginForm: true,
     validateRegistrationForm: true,
 
-    //валидное имя пользователя
+    //корректное имя пользователя
     validUsername: {
         minLength: 5,
         maxLength: 20,
         pattern: "^[a-zA-Z0-9]+[a-zA-Z_0-9]*[a-zA-Z0-9]+$",
     },
 
-    //валидный пароль
+    //корректный пароль
     validPassword: {
         minLength: 5,
         maxLength: 20,
         pattern: "^[a-zA-Z0-9!@#$%^&*(),.?\":{}|<>[\\]/`~+=-_';]*$",
+    },
+
+    //корректное имя для папки
+    validFolderName: {
+        minLength: 1,
+        maxLength: 200,
+        pattern: "^[^/\\\\:*?\"<>|]+$",
     },
 
 

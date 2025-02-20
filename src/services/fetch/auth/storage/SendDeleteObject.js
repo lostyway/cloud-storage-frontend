@@ -4,6 +4,7 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 export const sendDeleteObject = async (objectName) => {
 
+    console.log("Удаляем объект: " + objectName);
 
     const params = new URLSearchParams({path: objectName});
 
@@ -17,10 +18,11 @@ export const sendDeleteObject = async (objectName) => {
         credentials: 'include'
     });
 
+    console.log("Ответ: ", response);
 
     if (!response.ok) {
         const error = await response.json();
-        throwSpecifyException(error);
+        throwSpecifyException(response.status, error);
     }
 
     return await response.json();

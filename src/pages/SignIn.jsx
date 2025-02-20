@@ -1,9 +1,8 @@
-import {Box, Button, Card, Link, Zoom} from "@mui/material";
+import {Box, Button, Card, Link} from "@mui/material";
 import React, {useState} from "react";
 import Typography from "@mui/material/Typography";
 import ValidatedUsernameTextField from "../components/InputElements/TextField/ValidatedUsernameTextField.jsx";
 import ValidatedPasswordField from "../components/InputElements/TextField/ValidatedPasswordField.jsx";
-import AnimatedElement from "../components/InputElements/AnimatedElement.jsx";
 import {useNavigate} from "react-router-dom";
 import {sendLoginForm} from "../services/fetch/unauth/SendLoginForm.js";
 import {useAuthContext} from "../context/Auth/AuthContext.jsx";
