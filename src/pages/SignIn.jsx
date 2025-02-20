@@ -10,9 +10,13 @@ import {useAuthContext} from "../context/Auth/AuthContext.jsx";
 import {useNotification} from "../context/Notification/NotificationProvider.jsx";
 import UnauthorizedException from "../exception/UnauthorizedException.jsx";
 import NotFoundException from "../exception/NotFoundException.jsx";
+import BadRequestException from "../exception/BadRequestException.jsx";
 
 
 export const SignIn = () => {
+
+    const shouldValidate = window.APP_CONFIG.validateLoginForm;
+
     const {login} = useAuthContext();
 
     const [username, setUsername] = useState('');
@@ -27,9 +31,7 @@ export const SignIn = () => {
     const {showError, showInfo, showWarn} = useNotification();
 
     const handleSubmit = async () => {
-        if (usernameError || passwordError) {
-            return
-        }
+
 
         const requestData = {username, password,};
 
@@ -46,6 +48,10 @@ export const SignIn = () => {
                     break;
 
                 case error instanceof NotFoundException:
+                    showWarn(error.message);
+                    setUsernameError(error.message);
+                    break;
+                case error instanceof BadRequestException:
                     showWarn(error.message);
                     setUsernameError(error.message);
                     break;
@@ -86,6 +92,7 @@ export const SignIn = () => {
                         setUsername={setUsername}
                         usernameError={usernameError}
                         setUsernameError={setUsernameError}
+                        shouldValidate={shouldValidate}
                     />
 
 
@@ -94,6 +101,8 @@ export const SignIn = () => {
                         setPassword={setPassword}
                         passwordError={passwordError}
                         setPasswordError={setPasswordError}
+                        shouldValidate={shouldValidate}
+
                     />
 
 
@@ -104,6 +113,7 @@ export const SignIn = () => {
                         variant="contained"
                         onClick={handleSubmit}
                         loading={loading}
+                        disabled={shouldValidate && !shouldShowButton}
                     >
                         Войти
                     </Button>

@@ -3,6 +3,7 @@ import {GitHub, Help} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import {GITHUB_INFO} from "../../../UrlConstants.jsx";
 
 
 export const authenticationMenuItems = () => {
@@ -33,7 +34,8 @@ export const authenticationMenuItems = () => {
                 </ListItemIcon>
                 Помощь
             </MenuItem>
-            <MenuItem component="a" href="https://github.com/MrShoffen/cloud-storage-rest-api"
+            <MenuItem component="a"
+                      href={GITHUB_INFO}
                       target="_blank" rel="noopener noreferrer"
                       sx={{'&:hover': {textDecoration: 'none', color: 'inherit',}}}
             >

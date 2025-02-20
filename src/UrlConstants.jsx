@@ -5,7 +5,9 @@ export const API_BASE_URL = isProduction ? "" :
     "http://192.168.0.190:8080"
 ;
 
-export const API_CONTEXT = '/api';
+export const API_CONTEXT = window.APP_CONFIG.baseApi;
+
+
 
 //unauth
 export const API_REGISTRATION = API_BASE_URL + API_CONTEXT + '/auth/sign-up';
@@ -23,3 +25,6 @@ export const API_FILES_SEARCH  = API_FILES + '/search';
 
 
 export const API_USER_INFO = API_BASE_URL + API_CONTEXT + '/users/me';
+
+
+export const GITHUB_INFO = window.APP_CONFIG.githubLink

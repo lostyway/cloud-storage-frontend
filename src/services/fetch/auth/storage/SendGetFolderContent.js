@@ -23,6 +23,9 @@ export const sendGetFolderContent = async (folderName = "") => {
         throwSpecifyException(error);
     }
 
-    return await response.json();
+    let newVar = await response.json();
+    console.log("Запрос содержимого папки " + folderName);
+    console.log(newVar);
+    return newVar;
 
 }

@@ -1,5 +1,6 @@
 import {API_USER_INFO} from "../../../../UrlConstants.jsx";
 import ForbiddenException from "../../../../exception/ForbiddenException.jsx";
+import UnauthorizedException from "../../../../exception/UnauthorizedException.jsx";
 
 
 export const checkSession = async () => {
@@ -8,11 +9,13 @@ export const checkSession = async () => {
         method: 'GET',
         credentials: 'include'
     });
-    console.log('Checking session');
 
+    console.log("Проверка сессии: ");
+    console.log(response);
     if (!response.ok) {
+        console.log("Ошибка со статусом: " + response.status);
         const error = await response.json();
-        throw new ForbiddenException(error.detail);
+        throw new UnauthorizedException(error.detail);
     }
 
     return await response.json();

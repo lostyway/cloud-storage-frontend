@@ -14,11 +14,11 @@ export const sendLoginForm = async (registrationData) => {
         body: JSON.stringify(registrationData),
     });
 
-
+    console.log("Ответ на запрос о входе: ");
     console.log(response);
     if (!response.ok) {
+        console.log("Ошибка со статусом: " + response.status);
         const errorMessage = await response.json();
-
         throwSpecifyException(response.status, errorMessage);
     }
 

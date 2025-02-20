@@ -3,22 +3,34 @@ import * as React from "react";
 import {useEffect} from "react";
 
 
-export default function ValidatedUsernameTextField({username, setUsername, usernameError, setUsernameError, label='Имя пользователя'}) {
+export default function ValidatedUsernameTextField({
+                                                       username,
+                                                       setUsername,
+                                                       usernameError,
+                                                       setUsernameError,
+                                                       shouldValidate,
+                                                       label = 'Имя пользователя'
+                                                   }) {
+
+    const minLength = window.APP_CONFIG.validUsername.minLength;
+    const maxLength = window.APP_CONFIG.validUsername.maxLength;
+    const namePattern = RegExp(window.APP_CONFIG.validUsername.pattern);
 
     const validateUsername = (value) => {
+
         let isValid = true;
         let errMessage = '';
 
-        if (value && value.length < 5) {
-            errMessage = 'Имя пользователя должно быть длинее 4 символов. ';
+        if (value && value.length < 5 && shouldValidate) {
+            errMessage = 'Минимальная длина имени пользователя ' + minLength + ' символов. ';
             isValid = false;
         }
-        if (value && !/^[a-zA-Z0-9]+[a-zA-Z_0-9]*[a-zA-Z0-9]+$/.test(value)) {
-            errMessage += 'Только латинские буквы, цифры и нижнее подчеркивание. ';
+        if (value && !namePattern.test(value) && shouldValidate) {
+            errMessage += 'Недопустимые символы в имени пользователя. ';
             isValid = false;
         }
-        if (value && value.length > 20) {
-            errMessage += 'Имя пользователя должно быть короче 20 символов. ';
+        if (value && value.length > 20 && shouldValidate) {
+            errMessage += 'Максимальная длина имени пользователя: ' + maxLength + ' символов. ';
             isValid = false;
         }
 

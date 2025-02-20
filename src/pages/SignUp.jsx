@@ -10,9 +10,13 @@ import {useNotification} from "../context/Notification/NotificationProvider.jsx"
 import {sendRegistrationForm} from "../services/fetch/unauth/SendRegistrationForm.js";
 import ConflictException from "../exception/ConflictException.jsx";
 import {useAuthContext} from "../context/Auth/AuthContext.jsx";
+import BadRequestException from "../exception/BadRequestException.jsx";
 
 
 export const SignUp = () => {
+
+    const shouldValidate = window.APP_CONFIG.validateRegistrationForm;
+
 
     const [username, setUsername] = useState('')
     const [usernameError, setUsernameError] = useState('');
@@ -48,6 +52,12 @@ export const SignUp = () => {
                     showWarn(error.message);
                     setUsernameError(error.message);
                     break;
+
+                case error instanceof BadRequestException:
+                    showWarn(error.message);
+                    setUsernameError(error.message);
+                    break;
+
                 default:
                     showError("Не удалось зарегистрироваться. Попробуйте позже");
                     console.log('Unknown error occurred! ');
@@ -92,6 +102,7 @@ export const SignUp = () => {
                         setUsername={setUsername}
                         usernameError={usernameError}
                         setUsernameError={setUsernameError}
+                        shouldValidate={shouldValidate}
                     />
 
                     <ValidatedPasswordField
@@ -99,6 +110,7 @@ export const SignUp = () => {
                         setPassword={setPassword}
                         passwordError={passwordError}
                         setPasswordError={setPasswordError}
+                        shouldValidate={shouldValidate}
                     />
 
                     <ValidatedPasswordConfirmField
@@ -110,7 +122,7 @@ export const SignUp = () => {
                     />
 
                     <Button
-                        disabled={!shouldShowButton}
+                        disabled={shouldValidate && !shouldShowButton || confirmPasswordError}
                         fullWidth
                         type="submit"
                         variant="contained"

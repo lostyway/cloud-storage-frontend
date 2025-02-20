@@ -4,12 +4,13 @@ import {sendLogout} from "../../../services/fetch/auth/user/SendLogout.js";
 import {useAuthContext} from "../../../context/Auth/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 import {useNotification} from "../../../context/Notification/NotificationProvider.jsx";
+import {GITHUB_INFO} from "../../../UrlConstants.jsx";
 
 
 export const accountMenuItems = (openProfileModal, openSecurityModal) => {
     const {logout} = useAuthContext();
     const navigate = useNavigate();
-    const {showInfo} = useNotification();
+    const {showInfo, showError} = useNotification();
 
     const handleLogout = async () => {
         try {
@@ -20,6 +21,8 @@ export const accountMenuItems = (openProfileModal, openSecurityModal) => {
                 showInfo("Выход успешно выполнен", 4000);
             }, 400);
         } catch (error) {
+            showError(error.message);
+            logout();
             console.log('Unknown error occurred! ');
         }
     }
@@ -28,7 +31,7 @@ export const accountMenuItems = (openProfileModal, openSecurityModal) => {
     return (
         <>
 
-            <MenuItem onClick={() =>navigate("/help")}>
+            <MenuItem onClick={() => navigate("/help")}>
                 <ListItemIcon>
                     <Help fontSize="small"/>
                 </ListItemIcon>
@@ -36,7 +39,7 @@ export const accountMenuItems = (openProfileModal, openSecurityModal) => {
             </MenuItem>
             <MenuItem
                 component="a"
-                href="https://github.com/MrShoffen/cloud-storage-rest-api"
+                href={GITHUB_INFO}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{'&:hover': {textDecoration: 'none', color: 'inherit',}}}

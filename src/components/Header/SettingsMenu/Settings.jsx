@@ -4,8 +4,6 @@ import {useAuthContext} from "../../../context/Auth/AuthContext.jsx";
 import {accountMenuItems} from "./AccountMenuItems.jsx";
 import {authenticationMenuItems} from "./AuthenticationMenuItems.jsx";
 import MenuIcon from "@mui/icons-material/Menu";
-import ProfileModal from "../../../modals/ProfileModal/ProfileModal.jsx";
-import SecurityModal from "../../../modals/SecurityModal/SecurityModal.jsx";
 
 
 export const Settings = () => {
@@ -117,7 +115,6 @@ export const Settings = () => {
                             <Avatar sx={{width: 32, height: 32, fontWeight: "400", fontSize: "17px"}}
                                     alt={auth.user.username}
                                     style={{width: 42, height: 42}}
-                                    src={auth.user.avatarUrl}
                             > {auth.user.username.slice(0, 3)}</Avatar>
                             :
                             <Box sx={{width: 42, height: 42, alignContent: 'center'}}>
@@ -129,9 +126,6 @@ export const Settings = () => {
             </Box>
             {getMenuVariant()}
             {getDrawerVariant()}
-            <ProfileModal open={isProfileModalOpen} onClose={handleCloseProfileModal}/>
-            <SecurityModal open={isSecurityModalOpen} onClose={handleCloseSecurityModal}/>
-
         </>
     )
 
