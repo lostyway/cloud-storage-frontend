@@ -96,13 +96,6 @@ export const ObjectsContainer = () => {
 
     const [showHint, setShowHint] = useState(false);
 
-    useEffect(() => {
-        if ((folderContent === null || folderContent.length === 0) && folderPath.length === 1) {
-            setTimeout(() => setShowHint(true), 300);
-        }
-
-    }, [folderContent])
-
 
     return (
         <AnimatePresence mode="wait">

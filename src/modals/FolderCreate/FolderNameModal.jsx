@@ -8,6 +8,8 @@ import {useStorageNavigation} from "../../context/Storage/StorageNavigationProvi
 import {sendCreateFolder} from "../../services/fetch/auth/storage/SendCreateFolder.js";
 import ConflictException from "../../exception/ConflictException.jsx";
 import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
+import NotFoundException from "../../exception/NotFoundException.jsx";
+import BadRequestException from "../../exception/BadRequestException.jsx";
 
 export default function FolderNameModal({
                                             open,
@@ -15,7 +17,7 @@ export default function FolderNameModal({
                                         }) {
 
     const {currentPath, createSpoofObject} = useStorageNavigation();
-    const {showError, showSuccess} = useNotification();
+    const {showError, showSuccess, showWarn} = useNotification();
 
     const [filename, setfilename] = useState('');
     const [filenameError, setFilenameError] = useState('');
@@ -32,7 +34,9 @@ export default function FolderNameModal({
         } catch (error) {
             switch (true) {
                 case error instanceof ConflictException:
-                    showError(error.message);
+                case error instanceof NotFoundException:
+                case error instanceof BadRequestException:
+                    showWarn(error.message);
                     break;
                 default:
                     showError("Не удалось создать папку. Попробуйте позже");

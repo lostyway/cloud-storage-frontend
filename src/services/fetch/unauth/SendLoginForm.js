@@ -4,6 +4,8 @@ import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.js
 
 export const sendLoginForm = async (registrationData) => {
 
+    console.log("Запрос на вход: " + registrationData);
+
     const response = await fetch(API_LOGIN, {
         method: 'POST',
         headers: {

@@ -2,6 +2,11 @@ import React, {createContext, useContext, useRef, useState} from "react";
 import {sendGetFolderContent} from "../../services/fetch/auth/storage/SendGetFolderContent.js";
 import {useStorageSelection} from "./StorageSelectionProvider.jsx";
 import {Box} from "@mui/material";
+import ConflictException from "../../exception/ConflictException.jsx";
+import NotFoundException from "../../exception/NotFoundException.jsx";
+import BadRequestException from "../../exception/BadRequestException.jsx";
+import {useNotification} from "../Notification/NotificationProvider.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const CloudStorageContext = createContext();
@@ -53,22 +58,52 @@ export const StorageNavigationProvider = ({children}) => {
         return folderContent.find(object => object.path === path);
     }
 
+    const {showWarn, showError} = useNotification();
+
+    const navigate = useNavigate();
+
     const updateCurrentFolderContent = async (path = [""]) => {
         setSelectedIds([]);
         const fullPath = path.join("");
-        let content = await sendGetFolderContent(fullPath);
-        setFolderContent(content);
-
-        window.history.pushState(null, "", '/files/' + fullPath);
+        try {
+            let content = await sendGetFolderContent(fullPath);
+            setFolderContent(content);
+            window.history.pushState(null, "", '/files/' + fullPath);
+        } catch (error) {
+            switch (true) {
+                case error instanceof ConflictException:
+                case error instanceof NotFoundException:
+                case error instanceof BadRequestException:
+                    navigate("/files");
+                    showWarn(error.message);
+                    break;
+                default:
+                    showError("Не удалось создать папку. Попробуйте позже");
+                    console.log('Unknown error occurred! ');
+            }
+        }
     }
 
     const loadFolder = async (url = "") => {
         setSelectedIds([]);
         setFolderContentLoading(true);
-        let content = await sendGetFolderContent(url);
-        setFolderContent(content);
-
-        window.history.pushState(null, "", '/files/' + url);
+        try {
+            let content = await sendGetFolderContent(url); //todo add check for 404
+            setFolderContent(content);
+            window.history.pushState(null, "", '/files/' + url);
+        } catch (error) {
+            switch (true) {
+                case error instanceof ConflictException:
+                case error instanceof NotFoundException:
+                case error instanceof BadRequestException:
+                    navigate("/files");
+                    showWarn(error.message);
+                    break;
+                default:
+                    showError("Не удалось создать папку. Попробуйте позже");
+                    console.log('Unknown error occurred! ');
+            }
+        }
 
         if (url === "") {
             setFolderContentLoading(false);

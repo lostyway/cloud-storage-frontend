@@ -11,7 +11,6 @@ export const throwSpecifyException = (status, detail) => {
     switch (status) {
         case 400:
             throw new BadRequestException(detail.message);
-
         case 401:
             throw new UnauthorizedException(detail.message);
         case 409:

@@ -19,8 +19,6 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
     const {setSelectionMode, isSelectionMode, isCutMode, isCopyMode} = useStorageSelection();
 
 
-    const hiddenFolderTag = object.name === '*empty-folder-tag*'
-
     const onClick = isMob ? () => {
         if (object.folder && !isSelectionMode && !copied && !cutted) {
             goToFolder(object.name);
@@ -93,8 +91,6 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
 
 
     return (
-        <>
-            {!hiddenFolderTag &&
                 <Card
                     data-id={object.path}
                     className={'selectable'}
@@ -136,7 +132,5 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
                     </Box>
                     <ObjectName object={object}/>
                 </Card>
-            }
-        </>
     );
 }

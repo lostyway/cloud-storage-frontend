@@ -15,12 +15,13 @@ export default function FilePreviewModal({
                                              onClose,
                                              object
                                          }) {
+    const dotIndex = object ? object.path.lastIndexOf(".") : 0;
+    const format = object ? object.path.substring(dotIndex + 1) : 0;
 
 
     const getContentViewer = (format) => {
         return (
             <Box
-                // sx={{}
             >
                 <FileFormatIcon name={object.name} style={"list"}/>
             </Box>
