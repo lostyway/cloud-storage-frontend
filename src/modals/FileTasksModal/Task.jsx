@@ -130,7 +130,7 @@ export const Task = ({task}) => {
 
             {status === "progress" && (operation === "download" || operation === "upload") &&
                 <LinearProgress
-                    variant={task.progress === 100 ? "query" : "determinate"}
+                    variant={task.progress === 100 || task.progress === 0 ? "query" : "determinate"}
                     value={task.progress}
                     sx={{
                         width: '100%', position: 'absolute', height: 5, bottom: 0,
