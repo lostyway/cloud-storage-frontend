@@ -7,7 +7,6 @@ import {isMobile} from "react-device-detect";
 import CheckIcon from "@mui/icons-material/Check";
 import {useStorageSelection} from "../../../context/Storage/StorageSelectionProvider.jsx";
 import {FileFormatIcon} from "../../../assets/FileFormatIcon.jsx";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
 
 const isMob = isMobile;
@@ -16,10 +15,10 @@ const isMob = isMobile;
 export default function StorageListObject({object, style, selectedIds, bufferIds, handlePreview}) {
 
     const {goToFolder} = useStorageNavigation();
-    const {setSelectionMode, isSelectionMode, isCutMode, isCopyMode} = useStorageSelection();
+    const {setSelectionMode, isSelectionMode, isCopyMode} = useStorageSelection();
 
     const onClick = isMob ? () => {
-        if (object.folder && !isSelectionMode && !copied && !cutted) {
+        if (object.folder && !isSelectionMode &&  !cutted) {
             goToFolder(object.name);
             return;
         }
@@ -30,7 +29,7 @@ export default function StorageListObject({object, style, selectedIds, bufferIds
     }
 
     const onDoubleClick = !isMob ? () => {
-        if (object.folder && !copied && !cutted) {
+        if (object.folder &&  !cutted) {
             goToFolder(object.name);
             return;
         }
@@ -51,7 +50,6 @@ export default function StorageListObject({object, style, selectedIds, bufferIds
 
     const selected = selectedIds.includes(object.path);
 
-    const copied = bufferIds.includes(object.path) && isCopyMode;
     const cutted = bufferIds.includes(object.path) && isCutMode;
 
     return (
@@ -66,7 +64,7 @@ export default function StorageListObject({object, style, selectedIds, bufferIds
             sx={{
                 position: 'relative',
                 minWidth: 20,
-                opacity: copied || cutted ? 0.5 : 1,
+                opacity:  cutted ? 0.5 : 1,
                 minHeight: 50,
                 backgroundColor: selected ? "objectSelected" : "transparent",
                 borderRadius: 2,
@@ -81,8 +79,7 @@ export default function StorageListObject({object, style, selectedIds, bufferIds
         >
             <Box sx={{position: 'absolute', width: '20px', left: 8, bottom: 5,}}>
                 <FileFormatIcon name={object.name} style={style}/>
-                {copied && <ContentCopyIcon
-                    sx={{color: 'black', position: 'absolute', fontSize: '15px', bottom: 11, left: 3}}/>}
+
                 {cutted && <ContentCutIcon
                     sx={{color: 'black', position: 'absolute', fontSize: '15px', bottom: 11, left: 3}}/>}
 

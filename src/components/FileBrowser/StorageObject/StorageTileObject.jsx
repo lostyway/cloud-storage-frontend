@@ -67,7 +67,7 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
                     onDoubleClick={onDoubleClick}
                     sx={{
                         position: 'relative',
-                        opacity: copied || cutted ? 0.5 : 1,
+                        opacity:  cutted ? 0.5 : 1,
                         minWidth: isLarge ? 160 : 100,
                         minHeight: isLarge ? 185 : 120,
                         maxHeight: isLarge ? 185 : 120,
