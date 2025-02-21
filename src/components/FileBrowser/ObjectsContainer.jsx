@@ -14,7 +14,8 @@ import SearchObject from "./StorageObject/SearchObject.jsx";
 
 export const ObjectsContainer = () => {
 
-    const allowToCut = window.APP_CONFIG.isCutPasteAvailable;
+    const allowToCut = window.APP_CONFIG.isCutPasteAllowed;
+    const allowShortcuts = window.APP_CONFIG.isShortcutsAllowed;
 
     const {folderContent, searchedContent, isSearchMode} = useStorageNavigation();
     const {filesView, sortFolder} = useStorageView();
@@ -60,6 +61,9 @@ export const ObjectsContainer = () => {
 
     const handleKeyDown = (event) => {
         event.stopPropagation();
+        if(!allowShortcuts){
+            return;
+        }
 
         const key = event.key;
 

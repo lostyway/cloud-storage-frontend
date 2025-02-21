@@ -16,7 +16,7 @@ export const FileSelection = ({
                               }) => {
     const isMob = isMobile;
 
-    const allowToMove = window.APP_CONFIG.isMoveAvailable;
+    const allowToMove = window.APP_CONFIG.isMoveAllowed;
 
     const {moveObjects,  } = useStorageOperations();
     const {isSearchMode} = useStorageNavigation();

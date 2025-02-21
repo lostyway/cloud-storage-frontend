@@ -21,7 +21,7 @@ window.APP_CONFIG = {
     //ошибки будут отображаться при вводе. Кнопка будет активна только при валидных данных
     //Если false - форму можно отправить без валидации.
     validateLoginForm: true,
-    validateRegistrationForm: false,
+    validateRegistrationForm: true,
 
     //корректное имя пользователя
     validUsername: {
@@ -52,10 +52,16 @@ window.APP_CONFIG = {
     * */
 
     //Разрешать ли перемещение выделенных файлов и папок с помощью перетаскивания в соседние папки. (drag n drop)
-    isMoveAvailable: true,
+    isMoveAllowed: true,
 
     //Разрешить вырезать и вставлять файлы/папки. Для этого используется эндпоинт /move  - если у вас реализован, то всё должно работать
-    isCutPasteAvailable: true,
+    isCutPasteAllowed: true,
+
+    //Разрешить кастомное контекстное меню для управления файлами (вызывается правой кнопкой мыши - на одном файле, или на выделенных)
+    isFileContextMenuAllowed: true,
+
+    //Разрешить шорткаты на странице - Ctrl+X, Ctrl+V, Del - на выделенных элементах
+    isShortcutsAllowed: true,
 
     //набор утилитных функций для взаимодействия с фронтом.
     functions: {

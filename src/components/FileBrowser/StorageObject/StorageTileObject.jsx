@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import React, {useEffect} from "react";
+import React from "react";
 
 import {ObjectName} from "../elements/ObjectName.jsx";
 import {useStorageNavigation} from "../../../context/Storage/StorageNavigationProvider.jsx";
@@ -8,19 +8,17 @@ import {isMobile} from "react-device-detect";
 import {useStorageSelection} from "../../../context/Storage/StorageSelectionProvider.jsx";
 import {FileFormatIcon} from "../../../assets/FileFormatIcon.jsx";
 import ContentCutIcon from '@mui/icons-material/ContentCut';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {sendGetPreview} from "../../../services/fetch/auth/storage/SendGetPreview.js";
 
 
 export default function StorageTileObject({object, style, selectedIds, bufferIds, handlePreview}) {
     const isMob = isMobile;
     const isLarge = style === 'largeTiles'
     const {goToFolder} = useStorageNavigation();
-    const {setSelectionMode, isSelectionMode, isCutMode, isCopyMode} = useStorageSelection();
+    const {setSelectionMode, isSelectionMode, isCutMode} = useStorageSelection();
 
 
     const onClick = isMob ? () => {
-        if (object.folder && !isSelectionMode && !copied && !cutted) {
+        if (object.folder && !isSelectionMode && !cutted) {
             goToFolder(object.name);
             return;
         }
@@ -31,7 +29,7 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
     }
 
     const onDoubleClick = !isMob ? () => {
-        if (object.folder && !copied && !cutted) {
+        if (object.folder  && !cutted) {
             goToFolder(object.name);
             return;
         }
@@ -45,7 +43,7 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
         if (navigator.vibrate) {
             navigator.vibrate(70);
         }
-        if (!isSelectionMode && !isCutMode && !isCopyMode) {
+        if (!isSelectionMode && !isCutMode ) {
             setSelectionMode(true);
         }
     } : () => {
@@ -56,38 +54,7 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
 
     const selected = selectedIds.includes(object.path);
 
-    const copied = bufferIds.includes(object.path) && isCopyMode;
     const cutted = bufferIds.includes(object.path) && isCutMode;
-
-
-    const [preview, setPreview] = React.useState("");
-    useEffect(() => {
-        if (!preview && object.path && allowedPictureFormat(object)) {
-            getPreview(object.path);
-        }
-
-
-    }, []);
-
-    const allowedPictureFormat = (object) => {
-        if (object.folder) {
-            return false;
-        }
-        let dotIndex = object.path.lastIndexOf(".");
-        let format = object.path.substring(dotIndex + 1);
-
-        return format === 'jpg' || format === 'png'
-            || format === 'gif' || format === 'jpeg' || format === 'bmp'
-            || format === 'mp4' || format === 'webm' || format === 'mov';
-
-    }
-
-    const getPreview = async (path) => {
-        let previewUrl = await sendGetPreview(path);
-        // console.log(previewUrl);
-        setPreview(previewUrl);
-
-    }
 
 
     return (
@@ -126,7 +93,6 @@ export default function StorageTileObject({object, style, selectedIds, bufferIds
                     }}>
                             <FileFormatIcon  name={object.name} style={style}/>
 
-                        {copied && <ContentCopyIcon sx={{position: 'absolute', left: 0, top: 0, transform: 'translate(0%,0%)', zIndex: 40}}/>}
                         {cutted && <ContentCutIcon sx={{position: 'absolute', left: 0, top: 0, transform: 'translate(0%,0%)', zIndex: 40}}/>}
 
                     </Box>

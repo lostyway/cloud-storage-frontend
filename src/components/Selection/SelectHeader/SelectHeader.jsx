@@ -21,9 +21,11 @@ import {all} from "axios";
 export const SelectHeader = () => {
     const {deleteObject, downloadObjects, pasteObjects} = useStorageOperations();
 
+    const allowContext = window.APP_CONFIG.isFileContextMenuAllowed;
+
     const isMob = isMobile;
 
-    const allowToCut = window.APP_CONFIG.isCutPasteAvailable;
+    const allowToCut = window.APP_CONFIG.isCutPasteAllowed;
 
     const {
         isSelectionMode,
@@ -83,16 +85,6 @@ export const SelectHeader = () => {
         setAnchorEl2(null);
     }
 
-    const handleGoToFolder = () => {
-        setAnchorEl2(null);
-        setSearchedContent([]);
-        const path = selectedIds[0];
-        const last = path.lastIndexOf("/");
-
-        const toGo = last === -1 ? "" : path.substring(0, last + 1);
-
-        loadFolder(toGo);
-    }
 
     const createAnchorElement = useCallback((container, x, y) => {
         const anchorElement = document.createElement('div');
@@ -154,7 +146,7 @@ export const SelectHeader = () => {
     }, [selectedIds, isCutMode, createAnchorElement]);
 
     useEffect(() => {
-        if (!isMob) {
+        if (!isMob && allowContext) {
             //todo test experemental mousedown
             document.addEventListener('contextmenu', handleContextMenu, true);
             document.addEventListener('mousedown', handleClose, true);
