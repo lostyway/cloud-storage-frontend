@@ -7,6 +7,8 @@ import {Box} from "@mui/material";
 export default function MainLabel() {
     const navigate = useNavigate();
 
+    const name = window.APP_CONFIG.mainName;
+
     return (
         <Box
             sx={{
@@ -51,7 +53,7 @@ export default function MainLabel() {
                     textDecoration: 'none',
                     display: {xs: 'none', md: 'flex'}
                 }}>
-                CLOUD STORAGE
+                {name}
             </Typography>
         </Box>
     )

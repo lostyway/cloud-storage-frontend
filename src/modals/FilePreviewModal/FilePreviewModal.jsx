@@ -1,12 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Box, Modal, Typography} from "@mui/material";
 import Card from "@mui/material/Card";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import {extractSimpleName, formatDate} from "../../services/util/Utils.js";
 import bytes from "bytes";
-import {sendGetPreview} from "../../services/fetch/auth/storage/SendGetPreview.js";
-import ReactPlayer from "react-player";
 
 import {FileFormatIcon} from "../../assets/FileFormatIcon.jsx";
 

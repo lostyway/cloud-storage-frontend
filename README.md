@@ -98,7 +98,6 @@ GET /resource?path=$path
     "/config.js",
     "/assets/**",
     "/login",
-    "/help",
     "/registration",
     "/files/**"
 ).permitAll()
@@ -118,7 +117,7 @@ GET /resource?path=$path
 @Controller
 public class FrontendController {
 
-    @GetMapping(value = {"/registration", "/login", "/help", "/files/**"})
+    @GetMapping(value = {"/registration", "/login", "/files/**"})
     public String handleRefresh() {
         return "forward:/index.html";
     }

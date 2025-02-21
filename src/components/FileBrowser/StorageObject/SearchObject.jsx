@@ -1,5 +1,5 @@
 import {Box, Card} from "@mui/material";
-import React, {useEffect} from "react";
+import React from "react";
 import {useStorageNavigation} from "../../../context/Storage/StorageNavigationProvider.jsx";
 import {useLongPress} from "../../Selection/hook/useLongPress.jsx";
 import {isMobile} from "react-device-detect";
@@ -11,7 +11,6 @@ import ContentCutIcon from "@mui/icons-material/ContentCut";
 import Typography from "@mui/material/Typography";
 import bytes from "bytes";
 import {formatDate} from "../../../services/util/Utils.js";
-import {sendGetPreview} from "../../../services/fetch/auth/storage/SendGetPreview.js";
 
 const isMob = isMobile;
 
