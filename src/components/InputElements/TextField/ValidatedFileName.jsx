@@ -13,7 +13,7 @@ export default function ValidatedFileName({
 
     const minLength = window.APP_CONFIG.validFolderName.minLength;
     const maxLength = window.APP_CONFIG.validFolderName.maxLength;
-    const passwordPattern = RegExp(window.APP_CONFIG.validFolderName.pattern);
+    const folderPattern = RegExp(window.APP_CONFIG.validFolderName.pattern);
 
 
     const validateUsername = (value) => {
@@ -36,7 +36,7 @@ export default function ValidatedFileName({
             isValid = false;
         }
 
-        if (value && !passwordPattern.test(value)) {
+        if (value && !folderPattern.test(value)) {
             errMessage += 'Недопустимые символы в имени. ';
             isValid = false;
         }

@@ -128,7 +128,7 @@ export default function FilePreviewModal({
                                 width: '50%',
                                 color: 'text.secondary',
                             }}
-                        >Изменен: {formatDate(object.lastModified)}</Typography>
+                        >{object.lastModified && "Изменен: " && formatDate(object.lastModified)}</Typography>
 
                     </Box>
                     </>

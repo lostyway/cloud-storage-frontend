@@ -6,6 +6,9 @@ import {useStorageNavigation} from "../../context/Storage/StorageNavigationProvi
 import {useStorageSelection} from "../../context/Storage/StorageSelectionProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
+import ConflictException from "../../exception/ConflictException.jsx";
+import NotFoundException from "../../exception/NotFoundException.jsx";
+import BadRequestException from "../../exception/BadRequestException.jsx";
 
 export const HeaderSearchField = () => {
 
@@ -23,22 +26,37 @@ export const HeaderSearchField = () => {
         setSearchText(event.target.value);
     }
 
+    const {showWarn, showError} = useNotification();
+
     const handleSearch = async () => {
         if (!searchText) {
             return;
         }
         const currentFolder = currentPathRef.current.textContent;
         setLoading(true);
-        let findList = await sendFindObjects(currentFolder, searchText.trim());
-        setSelectedIds([]);
-        if (findList.length > 0) {
-            setSearchName(searchText.trim());
-            setSearchedContent(findList);
-            navigate("/files");
-        } else {
-            showInfo("По вашему запросу ничего не найдено", 3000);
+
+        try {
+            let findList = await sendFindObjects(currentFolder, searchText.trim());
+            console.log(findList);
+            if (findList.length > 0) {
+                setSearchName(searchText.trim());
+                setSearchedContent(findList);
+                navigate("/files");
+            } else {
+                showInfo("По вашему запросу ничего не найдено", 3000);
+            }
+        } catch (error) {
+            switch (true) {
+                case error instanceof BadRequestException:
+                    showWarn(error.message);
+                    break;
+                default:
+                    showError("Не удалось создать папку. Попробуйте позже");
+                    console.log('Unknown error occurred! ');
+            }
         }
 
+        setSelectedIds([]);
         setSearchText(prev => prev.trim());
         setLoading(false);
     }
@@ -68,7 +86,7 @@ export const HeaderSearchField = () => {
                     <CircularProgress size="34px" sx={{position: 'absolute', right: 3}} color="inherit"/>
                 </Backdrop>
 
-                <Input variant="outlined" placeholder="Поиск в папке" disableUnderline
+                <Input variant="outlined" placeholder="Поиск..." disableUnderline
                        value={searchText}
                        onChange={inputChange}
                        onKeyDown={(event) => {

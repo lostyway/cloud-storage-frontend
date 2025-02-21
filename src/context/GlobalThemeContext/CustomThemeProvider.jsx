@@ -11,7 +11,7 @@ export const CustomThemeProvider = ({children}) => {
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem('isDarkMode');
-        return savedTheme ? JSON.parse(savedTheme) : true;
+        return savedTheme ? JSON.parse(savedTheme) : false;
     });
 
     const toggleTheme = () => {
@@ -72,125 +72,9 @@ export const CustomThemeProvider = ({children}) => {
         [isDarkMode]
     );
 
-    const DB_NAME = 'VideoThumbnailsDB';
-    const STORE_NAME = 'thumbnails';
-    const [db, setDb] = useState(null);
-
-    function openDB() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, 1);
-
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                if (!db.objectStoreNames.contains(STORE_NAME)) {
-                    db.createObjectStore(STORE_NAME);
-                }
-            };
-
-            request.onsuccess = (event) => {
-                resolve(event.target.result);
-            };
-
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async function initAndCleanDb() {
-        let db = await openDB();
-        setDb(db);
-        await cleanExpiredData(db, 3600000);
-    }
-
-    const getFromDB = (key) => {
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(STORE_NAME, 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.get(key);
-
-            request.onsuccess = () => {
-                const data = request.result;
-                if (!data) {
-                    resolve(null); // Данных нет
-                    return;
-                }
-                resolve(data.value);
-            };
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-    const saveToDB = (key, value) => {
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(STORE_NAME, 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-
-            const dataWithTimestamp = {
-                value: value,
-                timestamp: Date.now(), // Текущее время в миллисекундах
-            };
-
-            const request = store.put(dataWithTimestamp, key);
-
-            request.onsuccess = () => {
-                resolve();
-            };
-
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-
-    async function cleanExpiredData(db, ttl) {
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction(STORE_NAME, 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.getAll();
-
-            request.onsuccess = () => {
-                const currentTime = Date.now();
-                const expiredKeys = [];
-
-                request.result.forEach((item) => {
-                    const dataAge = currentTime - item.timestamp;
-                    if (dataAge > ttl) {
-                        expiredKeys.push(item.key);
-                    }
-                });
-
-                // Удаляем все устаревшие данные
-                if (expiredKeys.length > 0) {
-                    expiredKeys.forEach((key) => {
-                        store.delete(key);
-                    });
-                }
-
-                resolve();
-            };
-
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-    useEffect(() => {
-        initAndCleanDb();
-
-        setInterval(async () => {
-            const db = await openDB();
-            await cleanExpiredData(db, 3600000);
-        }, 3600000);
-    }, []);
-
 
     return (
-        <ThemeContext.Provider value={{isDarkMode, toggleTheme, getFromDB, saveToDB}}>
+        <ThemeContext.Provider value={{isDarkMode, toggleTheme}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline enableColorScheme/>
                 <BackgroundWrapper>

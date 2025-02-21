@@ -27,13 +27,6 @@ export const authenticationMenuItems = () => {
                 Регистрация
             </MenuItem>
             <Divider/>
-            <MenuItem onClick={() =>navigate("/help")}>
-
-                <ListItemIcon>
-                    <Help fontSize="small"/>
-                </ListItemIcon>
-                Помощь
-            </MenuItem>
             <MenuItem component="a"
                       href={GITHUB_INFO}
                       target="_blank" rel="noopener noreferrer"

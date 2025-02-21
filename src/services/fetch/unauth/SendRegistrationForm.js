@@ -22,6 +22,7 @@ export const sendRegistrationForm = async (registrationData) =>{
     if (!response.ok) {
         console.log("Ошибка со статусом: " + response.status);
         const errorMessage = await response.json();
+        console.log(errorMessage);
         throwSpecifyException(response.status, errorMessage);
     }
 

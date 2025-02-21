@@ -69,34 +69,6 @@ export default function SearchObject({object, selectedIds, bufferIds, handlePrev
 
     } : null;
 
-    const [preview, setPreview] = React.useState("");
-    useEffect(() => {
-        if (!preview && object.path && allowedPictureFormat(object)) {
-            getPreview(object.path);
-        }
-
-
-    }, []);
-
-    const allowedPictureFormat = (object) => {
-        if (object.folder) {
-            return false;
-        }
-        let dotIndex = object.path.lastIndexOf(".");
-        let format = object.path.substring(dotIndex + 1);
-
-        return format === 'jpg' || format === 'png'
-            || format === 'gif' || format === 'jpeg' || format === 'bmp'
-            || format === 'mp4' || format === 'webm' || format === 'mov';
-
-    }
-
-    const getPreview = async (path) => {
-        let previewUrl = await sendGetPreview(path);
-        // console.log(previewUrl);
-        setPreview(previewUrl);
-
-    }
 
     const longPressEvent = useLongPress(onLongPress, onClick);
 
@@ -229,7 +201,7 @@ export default function SearchObject({object, selectedIds, bufferIds, handlePrev
                                 },
                             }}
                         >
-                            {formatDate(object.lastModified)}
+                            {object.lastModified && formatDate(object.lastModified)}
                         </Typography>
                     }
 

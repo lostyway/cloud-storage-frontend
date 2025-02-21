@@ -31,12 +31,6 @@ export const accountMenuItems = (openProfileModal, openSecurityModal) => {
     return (
         <>
 
-            <MenuItem onClick={() => navigate("/help")}>
-                <ListItemIcon>
-                    <Help fontSize="small"/>
-                </ListItemIcon>
-                Помощь
-            </MenuItem>
             <MenuItem
                 component="a"
                 href={GITHUB_INFO}

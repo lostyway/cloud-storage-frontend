@@ -9,13 +9,14 @@ import {FileSelection} from "../Selection/FileSelection.jsx";
 import {useStorageView} from "../../context/Storage/StorageViewProvider.jsx";
 import {useStorageSelection} from "../../context/Storage/StorageSelectionProvider.jsx";
 import {useStorageOperations} from "../../context/Files/FileOperationsProvider.jsx";
-import {UsageHint} from "../hints/UsageHint.jsx";
 import FilePreviewModal from "../../modals/FilePreviewModal/FilePreviewModal.jsx";
 import SearchObject from "./StorageObject/SearchObject.jsx";
 
 export const ObjectsContainer = () => {
 
-    const {folderContent, folderPath, searchedContent, isSearchMode} = useStorageNavigation();
+    const allowToCut = window.APP_CONFIG.isCutPasteAvailable;
+
+    const {folderContent, searchedContent, isSearchMode} = useStorageNavigation();
     const {filesView, sortFolder} = useStorageView();
     const {
         selectedIds, setSelectedIds, setSelectionMode,
@@ -70,7 +71,7 @@ export const ObjectsContainer = () => {
             }
         }
 
-        if ((event.ctrlKey || event.metaKey) && (key === "x" || key === "X" || key === "Ч" || key === "ч")) {
+        if ((event.ctrlKey || event.metaKey) && allowToCut && (key === "x" || key === "X" || key === "Ч" || key === "ч")) {
             event.preventDefault();
 
             if (selectedIds.length > 0) {
@@ -78,7 +79,7 @@ export const ObjectsContainer = () => {
             }
         }
 
-        if ((event.ctrlKey || event.metaKey) && (key === "v" || key === "V" || key === "м" || key === "М")) {
+        if ((event.ctrlKey || event.metaKey) && allowToCut &&(key === "v" || key === "V" || key === "м" || key === "М")) {
             event.preventDefault();
 
             if (bufferIds.length > 0) {
@@ -86,8 +87,6 @@ export const ObjectsContainer = () => {
             }
         }
     };
-
-    const [showHint, setShowHint] = useState(false);
 
 
     return (
@@ -182,11 +181,6 @@ export const ObjectsContainer = () => {
                         </Box>
                 }
 
-                {showHint &&
-                    <Box sx={{mt: -30}}>
-                        <UsageHint/>
-                    </Box>
-                }
                 <FileSelection containerRef={containerRef} selectedIds={selectedIds} moveableRef={moveableRef}
                                selectoRef={selectoRef}
                                setSelectedIds={setSelectedIds}/>

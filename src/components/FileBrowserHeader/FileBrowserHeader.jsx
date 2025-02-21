@@ -1,12 +1,4 @@
-import {
-    Box,
-    Button,
-    Card,
-    CircularProgress,
-    Container,
-    Divider,
-    IconButton
-} from "@mui/material";
+import {Box, Button, Card, CircularProgress, Container, Divider, IconButton} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {CustomBread} from "./Breadcrumbs/CustomBread.jsx";
 import {useStorageNavigation} from "../../context/Storage/StorageNavigationProvider.jsx";
@@ -18,7 +10,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import {useStorageSelection} from "../../context/Storage/StorageSelectionProvider.jsx";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
 import {useStorageOperations} from "../../context/Files/FileOperationsProvider.jsx";
 import AddIcon from '@mui/icons-material/Add';
@@ -34,10 +25,10 @@ export const FileBrowserHeader = () => {
     } = useStorageNavigation();
 
     const {
-        isCopyMode,
+
         isCutMode,
         bufferIds,
-        endCopying,
+
         endCutting
     } = useStorageSelection();
 
@@ -155,7 +146,7 @@ export const FileBrowserHeader = () => {
                             </Button>
                         }
 
-                        {!isCopyMode && !isCutMode ?
+                        { !isCutMode ?
                             <Box sx={{
                                 position: 'absolute',
                                 width: "50%",
@@ -195,7 +186,6 @@ export const FileBrowserHeader = () => {
                             >
                                 <IconButton
                                     onClick={() => {
-                                        endCopying();
                                         endCutting();
                                     }}
                                     sx={{
@@ -222,8 +212,7 @@ export const FileBrowserHeader = () => {
                                     color: 'white',
                                     pt: 0.8
                                 }}>
-                                    {isCopyMode &&
-                                        <ContentCopyIcon sx={{fontSize: '20px', pt: '1px', mr: 0.5, mb: -0.3}}/>}
+
                                     {isCutMode &&
                                         <ContentCutIcon sx={{fontSize: '20px', pt: '1px', mr: 0.5, mb: -0.3}}/>}
 
@@ -256,7 +245,7 @@ export const FileBrowserHeader = () => {
                             <AddIcon/>
                         </IconButton>
 
-                        {!isCopyMode && !isCutMode &&
+                        { !isCutMode &&
 
                             <IconButton onClick={handleOpenMenu} variant='contained' sx={{ml: '0'}}>
                                 <MoreVertIcon/>

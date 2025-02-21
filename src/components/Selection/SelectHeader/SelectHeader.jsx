@@ -15,12 +15,15 @@ import {ContentCut, ContentPaste} from "@mui/icons-material";
 import {isMobile} from "react-device-detect";
 import {useStorageNavigation} from "../../../context/Storage/StorageNavigationProvider.jsx";
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+import {all} from "axios";
 
 
 export const SelectHeader = () => {
     const {deleteObject, downloadObjects, pasteObjects} = useStorageOperations();
 
     const isMob = isMobile;
+
+    const allowToCut = window.APP_CONFIG.isCutPasteAvailable;
 
     const {
         isSelectionMode,
@@ -136,7 +139,7 @@ export const SelectHeader = () => {
             setSelectionMode(true);
         }
 
-        if (selectableItem && selectedIds.length === 0 && !isCutMode ) {
+        if (selectableItem && selectedIds.length === 0 && !isCutMode) {
             setSelectedIds([selectableItem.dataset.id]);
             setSelectionMode(true);
 
@@ -265,7 +268,7 @@ export const SelectHeader = () => {
                         <DriveFileRenameOutlineIcon sx={{fontSize: '20px'}}/>
                     </IconButton>
 
-                    {!isSearchMode ?
+                    {!isSearchMode &&
                         <IconButton
                             onClick={handleDelete}
                             sx={{
@@ -279,9 +282,11 @@ export const SelectHeader = () => {
                         >
                             <DeleteIcon sx={{fontSize: '20px'}}/>
                         </IconButton>
-                        :
-                        selectedIds.length === 1 && <IconButton
-                            onClick={handleGoToFolder}
+
+                    }
+                    {allowToCut &&
+                        <IconButton
+                            onClick={startCutting}
                             sx={{
 
                                 width: '35px',
@@ -291,24 +296,9 @@ export const SelectHeader = () => {
 
                             }}
                         >
-                            <DriveFileMoveIcon sx={{fontSize: '20px'}}/>
+                            <ContentCutIcon sx={{fontSize: '20px'}}/>
                         </IconButton>
                     }
-
-                    <IconButton
-                        onClick={startCutting}
-                        sx={{
-
-                            width: '35px',
-                            height: '35px',
-                            color: 'white',
-                            userSelect: 'none'
-
-                        }}
-                    >
-                        <ContentCutIcon sx={{fontSize: '20px'}}/>
-                    </IconButton>
-
 
 
                     <IconButton
@@ -362,35 +352,38 @@ export const SelectHeader = () => {
                         maxWidth: '100%'
                     }}
                 >
-                    <MenuItem
-                        disabled={selectedIds.length === 0 }
-                        onClick={handleCut}
-                    >
-                        <ListItemIcon>
-                            <ContentCut fontSize="small"/>
-                        </ListItemIcon>
-                        <ListItemText>Вырезать</ListItemText>
-                        <Typography variant="body2" sx={{color: 'text.secondary'}}>
-                            Ctrl+X
-                        </Typography>
-                    </MenuItem>
+                    {allowToCut &&
+                        <>
+                            <MenuItem
+                                disabled={selectedIds.length === 0}
+                                onClick={handleCut}
+                            >
+                                <ListItemIcon>
+                                    <ContentCut fontSize="small"/>
+                                </ListItemIcon>
+                                <ListItemText>Вырезать</ListItemText>
+                                <Typography variant="body2" sx={{color: 'text.secondary'}}>
+                                    Ctrl+X
+                                </Typography>
+                            </MenuItem>
 
-                    <MenuItem
-                        disabled={ !isCutMode || isSearchMode}
-                        onClick={handlePaste}
-                    >
-                        <ListItemIcon>
-                            <ContentPaste fontSize="small"/>
-                        </ListItemIcon>
-                        <ListItemText>Вставить</ListItemText>
-                        <Typography variant="body2" sx={{color: 'text.secondary'}}>
-                            Ctrl+V
-                        </Typography>
-                    </MenuItem>
+                            <MenuItem
+                                disabled={!isCutMode || isSearchMode}
+                                onClick={handlePaste}
+                            >
+                                <ListItemIcon>
+                                    <ContentPaste fontSize="small"/>
+                                </ListItemIcon>
+                                <ListItemText>Вставить</ListItemText>
+                                <Typography variant="body2" sx={{color: 'text.secondary'}}>
+                                    Ctrl+V
+                                </Typography>
+                            </MenuItem>
 
-                    <Divider/>
-
-                    {!isSearchMode ?
+                            <Divider/>
+                        </>
+                    }
+                    {!isSearchMode &&
                         <MenuItem
                             disabled={selectedIds.length === 0}
                             onClick={handleDeleteContext}
@@ -403,20 +396,6 @@ export const SelectHeader = () => {
                                 Del
                             </Typography>
                         </MenuItem>
-                        :
-                        <MenuItem
-                            disabled={selectedIds.length !== 1}
-                            onClick={handleGoToFolder}
-                        >
-                            <ListItemIcon>
-                                <DriveFileMoveIcon fontSize="small"/>
-                            </ListItemIcon>
-                            <ListItemText>Перейти к папке</ListItemText>
-                            <Typography variant="body2" sx={{color: 'text.secondary'}}>
-                                Del
-                            </Typography>
-                        </MenuItem>
-
                     }
 
                     {!isSearchMode &&

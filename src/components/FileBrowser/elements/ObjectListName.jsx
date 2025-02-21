@@ -99,7 +99,7 @@ export const ObjectListName = ({object}) => {
                         },
                     }}
                 >
-                    {formatDate(object.lastModified)}
+                    {object.lastModified && formatDate(object.lastModified)}
                 </Typography>
 
             }

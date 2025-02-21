@@ -11,6 +11,7 @@ import {sendRegistrationForm} from "../services/fetch/unauth/SendRegistrationFor
 import ConflictException from "../exception/ConflictException.jsx";
 import {useAuthContext} from "../context/Auth/AuthContext.jsx";
 import BadRequestException from "../exception/BadRequestException.jsx";
+import ForbiddenException from "../exception/ForbiddenException.jsx";
 
 
 export const SignUp = () => {
@@ -35,9 +36,6 @@ export const SignUp = () => {
     const {login} = useAuthContext();
 
     const handleSubmit = async () => {
-        if (usernameError || passwordError || confirmPasswordError) {
-            return;
-        }
 
         const requestData = {username, password};
 
@@ -48,12 +46,10 @@ export const SignUp = () => {
             showSuccess("Регистрация и вход успешно выполнены", 5000);
         } catch (error) {
             switch (true) {
+                case error instanceof ForbiddenException:
                 case error instanceof ConflictException:
-                    showWarn(error.message);
-                    setUsernameError(error.message);
-                    break;
-
                 case error instanceof BadRequestException:
+
                     showWarn(error.message);
                     setUsernameError(error.message);
                     break;

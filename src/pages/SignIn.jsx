@@ -30,8 +30,6 @@ export const SignIn = () => {
     const {showError, showInfo, showWarn} = useNotification();
 
     const handleSubmit = async () => {
-
-
         const requestData = {username, password,};
 
         try {
