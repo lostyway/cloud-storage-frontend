@@ -20,7 +20,7 @@ export const sendGetObjectStats = async (object = "") => {
 
     if (!response.ok) {
         const error = await response.json();
-        throwSpecifyException(error);
+        throwSpecifyException(response.status, error);
     }
 
     return await response.json();

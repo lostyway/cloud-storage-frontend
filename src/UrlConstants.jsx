@@ -17,13 +17,11 @@ export const API_LOGOUT = API_BASE_URL + API_CONTEXT + '/auth/sign-out';
 export const API_DIRECTORY = API_BASE_URL + API_CONTEXT + '/directory';
 export const API_FILES = API_BASE_URL + API_CONTEXT + '/resource';
 export const API_FILES_SEARCH  = API_FILES + '/search';
-
-
-export const API_MOVE_FILES = API_FILES + '/move';
-export const API_COPY_FILES = API_FILES + '/copy';
 export const API_DOWNLOAD_FILES  = API_FILES + '/download';
+export const API_MOVE_FILES = API_FILES + '/move';
+
+export const API_COPY_FILES = API_FILES + '/copy';
 export const API_FILES_PREVIEW  = API_FILES + '/preview';
-export const API_UPLOAD_FILES  = API_FILES+ '/upload';
 
 
 export const API_USER_INFO = API_BASE_URL + API_CONTEXT + '/users/me';

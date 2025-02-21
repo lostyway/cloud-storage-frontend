@@ -279,12 +279,14 @@ export const FileOperationsProvider = ({children}) => {
         let size = obj ? obj.size : 0;
         try {
             await sendDownloadFile(downloadTask, updateTask, updateDownloadTask, size, updateDownloadSpeed);
+            updateTask(downloadTask, "completed", "Скачивание завершено")
 
         } catch (error) {
-            updateTask(downloadTask, "error", "Ошибка при скачивании. Попробуйте еще раз")
+            console.log(error.message);
+            updateTask(downloadTask, "error", error.message);
+
         }
 
-        updateTask(downloadTask, "completed", "Скачивание завершено")
     }
 
     async function executeRename(task) {

@@ -1,6 +1,7 @@
 import {API_DOWNLOAD_FILES} from "../../../../UrlConstants.jsx";
 import {extractSimpleName} from "../../../util/Utils.js";
 import {sendGetObjectStats} from "./SendGetObjectStats.js";
+import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException.jsx";
 
 
 export const sendDownloadFile = async (downloadTask, updateTask, updateDownloadTask, size, updateDownloadSpeed) => {
@@ -10,9 +11,19 @@ export const sendDownloadFile = async (downloadTask, updateTask, updateDownloadT
 
     const fetchUrl = `${API_DOWNLOAD_FILES}?${params.toString()}`;
 
-    if(size === 0){
-        let stats = await sendGetObjectStats(filePath);
-        size = stats.size;
+    console.log("Пытаемся скачать: " + filePath);
+
+    if (size === 0) {
+        console.log("Пытаемся получить размер: " + filePath);
+
+        try {
+            let stats = await sendGetObjectStats(filePath);
+            size = stats.size;
+        } catch (e){
+            console.log('Не получилось извлечь размер папки')
+            console.log(e);
+        }
+
     }
 
     const response = await fetch(fetchUrl, {
@@ -21,7 +32,11 @@ export const sendDownloadFile = async (downloadTask, updateTask, updateDownloadT
     });
 
     if (!response.ok) {
-        updateTask(downloadTask, "error", "Ошибка при скачивании. Попробуйте еще раз")
+        console.log(response);
+        console.log('Ошибка при скачивании: ' + response.status);
+        const error = await response.json();
+        console.log(error);
+        throwSpecifyException(response.status, error);
         return;
     }
 
