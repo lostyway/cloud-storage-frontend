@@ -1,4 +1,4 @@
-import {API_FILES, API_DIRECTORY} from "../../../../UrlConstants.jsx";
+import {API_DIRECTORY} from "../../../../UrlConstants.jsx";
 import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException.jsx";
 
 

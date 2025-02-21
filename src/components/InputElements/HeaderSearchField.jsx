@@ -6,8 +6,6 @@ import {useStorageNavigation} from "../../context/Storage/StorageNavigationProvi
 import {useStorageSelection} from "../../context/Storage/StorageSelectionProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import {useNotification} from "../../context/Notification/NotificationProvider.jsx";
-import ConflictException from "../../exception/ConflictException.jsx";
-import NotFoundException from "../../exception/NotFoundException.jsx";
 import BadRequestException from "../../exception/BadRequestException.jsx";
 
 export const HeaderSearchField = () => {

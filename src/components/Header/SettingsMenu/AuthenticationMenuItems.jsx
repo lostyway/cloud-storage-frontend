@@ -1,5 +1,5 @@
 import {Divider, ListItemIcon, MenuItem} from "@mui/material";
-import {GitHub, Help} from "@mui/icons-material";
+import {GitHub} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';

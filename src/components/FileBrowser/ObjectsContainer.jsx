@@ -2,7 +2,7 @@ import {Box} from "@mui/material";
 import StorageTileObject from "./StorageObject/StorageTileObject.jsx";
 import {useStorageNavigation} from "../../context/Storage/StorageNavigationProvider.jsx";
 import {AnimatePresence, motion} from "framer-motion";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import StorageListObject from "./StorageObject/StorageListObject.jsx";
 import './selected.css';
 import {FileSelection} from "../Selection/FileSelection.jsx";

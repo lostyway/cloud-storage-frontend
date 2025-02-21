@@ -14,8 +14,6 @@ import RenameModal from "../../../modals/FileChange/RenameModal.jsx";
 import {ContentCut, ContentPaste} from "@mui/icons-material";
 import {isMobile} from "react-device-detect";
 import {useStorageNavigation} from "../../../context/Storage/StorageNavigationProvider.jsx";
-import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
-import {all} from "axios";
 
 
 export const SelectHeader = () => {

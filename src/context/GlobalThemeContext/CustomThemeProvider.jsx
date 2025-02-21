@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useMemo, useState} from "react";
+import {createContext, useContext, useMemo, useState} from "react";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import {BackgroundWrapper} from "./BackgroundWrapper.jsx";
 
