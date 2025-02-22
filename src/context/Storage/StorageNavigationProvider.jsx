@@ -68,7 +68,9 @@ export const StorageNavigationProvider = ({children}) => {
         try {
             let content = await sendGetFolderContent(fullPath);
             setFolderContent(content);
-            window.history.pushState(null, "", '/files/' + fullPath);
+
+            const base = import.meta.env.VITE_BASE;
+            window.history.pushState(null, "", base + 'files/' + fullPath);
         } catch (error) {
             switch (true) {
                 case error instanceof ConflictException:
@@ -90,7 +92,9 @@ export const StorageNavigationProvider = ({children}) => {
         try {
             let content = await sendGetFolderContent(url); //todo add check for 404
             setFolderContent(content);
-            window.history.pushState(null, "", '/files/' + url);
+
+            const base = import.meta.env.VITE_BASE;
+            window.history.pushState(null, "", base + 'files/' + url);
         } catch (error) {
             switch (true) {
                 case error instanceof ConflictException:
