@@ -47,6 +47,10 @@ jobs:
         run: |
           npx \
             vite build --mode gh-pages
+      # 404 fallback
+      - name: Copy index.html to 404.hmtl
+        run: |
+          cp dist/index.html dist/404.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
