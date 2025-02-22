@@ -5,7 +5,13 @@ import bytes from "bytes";
 
 
 export async function sendUpload(files, updateDownloadTask, updateTask, uploadTask, currPath) {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for upload file");
 
+        updateTask(uploadTask, "completed", "Загружено");
+
+        return;
+    }
 
     console.log("Файлы загружен на фронт: ");
     console.log(files);

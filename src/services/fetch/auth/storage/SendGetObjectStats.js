@@ -3,7 +3,15 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 
 export const sendGetObjectStats = async (object = "") => {
-
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for get object stats");
+        return {
+            path: "/",
+            name: "mocked_file.txt",
+            size: 100,
+            type: "FILE"
+        };
+    }
 
     const params = new URLSearchParams({path: object});
 

@@ -3,6 +3,10 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 
 export const sendMoveObject = async (source, target) => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for move object");
+        return;
+    }
 
     console.log("Перемещение:");
     console.log( source + ' --> ' + target);

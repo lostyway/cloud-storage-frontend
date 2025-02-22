@@ -3,6 +3,12 @@ import UnauthorizedException from "../../../../exception/UnauthorizedException.j
 
 
 export const checkSession = async () => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for check session");
+        return {
+            username: "mocked_user"
+        };
+    }
 
     const response = await fetch(API_USER_INFO, {
         method: 'GET',

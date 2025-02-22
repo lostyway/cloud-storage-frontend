@@ -3,6 +3,10 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 
 export const sendCreateFolder = async (path) => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for create folder");
+        return;
+    }
 
     console.log("Запрос на создание папки: " + path);
 

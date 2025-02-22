@@ -3,6 +3,13 @@ import {throwSpecifyException} from "../../../exception/ThrowSpecifyException.js
 
 
 export const sendRegistrationForm = async (registrationData) =>{
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for registration");
+        
+        return {
+            username: "mocked_user"
+        };
+    }
 
     console.log("Запрос на регистрацию: " + registrationData);
 

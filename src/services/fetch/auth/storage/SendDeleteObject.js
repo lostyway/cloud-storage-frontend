@@ -3,6 +3,10 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 
 export const sendDeleteObject = async (objectName) => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for delete object");
+        return;
+    }
 
     console.log("Удаляем объект: " + objectName);
 

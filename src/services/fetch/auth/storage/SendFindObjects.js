@@ -5,6 +5,17 @@ import {mapToFrontFormat} from "../../../util/FormatMapper.js";
 
 export const sendFindObjects = async (folderName = "", objectToFind) => {
 
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for find objects");
+        return [
+            {
+                "path": "",
+                name: "mocked_file.txt",
+                size: 100,
+                type: "FILE"
+            }
+        ];
+    }
 
     console.log("Запрос на поиск: " + objectToFind);
 

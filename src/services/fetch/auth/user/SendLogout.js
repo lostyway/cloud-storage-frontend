@@ -3,6 +3,10 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 
 export const sendLogout = async () => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for logout");
+        return;
+    }
 
     const response = await fetch(API_LOGOUT, {
         method: 'POST',

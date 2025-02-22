@@ -4,6 +4,23 @@ import {mapToFrontFormat} from "../../../util/FormatMapper.js";
 
 
 export const sendGetFolderContent = async (folderName = "") => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for get folder content");
+        return [
+            {
+                path: "",
+                name: "mocked_file.txt",
+                size: 100,
+                type: "FILE"
+            },
+            {
+                path: "",
+                name: "mocked_folder1",
+                size: 100,
+                type: "DIRECTORY"
+            }
+        ];
+    }
 
     console.log("ЗАпрос на содержимое папки: " + folderName);
 

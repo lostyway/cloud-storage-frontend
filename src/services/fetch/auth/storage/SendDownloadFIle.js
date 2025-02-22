@@ -5,6 +5,11 @@ import {throwSpecifyException} from "../../../../exception/ThrowSpecifyException
 
 
 export const sendDownloadFile = async (downloadTask, updateTask, updateDownloadTask, size, updateDownloadSpeed) => {
+    if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
+        console.log("Mocked fetch call for download file");
+        return;
+    }
+
     const filePath = downloadTask.operation.source;
 
     const params = new URLSearchParams({path: filePath});
