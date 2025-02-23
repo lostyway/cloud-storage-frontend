@@ -7,7 +7,7 @@ export const sendFindObjects = async (folderName = "", objectToFind) => {
 
     if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
         console.log("Mocked fetch call for find objects");
-        return [
+        const mockedResponse = [
             {
                 "path": "",
                 name: "mocked_file.txt",
@@ -15,6 +15,8 @@ export const sendFindObjects = async (folderName = "", objectToFind) => {
                 type: "FILE"
             }
         ];
+
+        return mockedResponse.map(ob => mapToFrontFormat(ob));
     }
 
     console.log("Запрос на поиск: " + objectToFind);

@@ -6,20 +6,34 @@ import {mapToFrontFormat} from "../../../util/FormatMapper.js";
 export const sendGetFolderContent = async (folderName = "") => {
     if (import.meta.env.VITE_MOCK_FETCH_CALLS) {
         console.log("Mocked fetch call for get folder content");
-        return [
-            {
-                path: "",
-                name: "mocked_file.txt",
-                size: 100,
-                type: "FILE"
-            },
-            {
-                path: "",
-                name: "mocked_folder1",
-                size: 100,
-                type: "DIRECTORY"
-            }
-        ];
+
+        let mockedResponse = [];
+        if (folderName === "") {
+            mockedResponse = [
+                {
+                    path: "",
+                    name: "mocked_file.txt",
+                    size: 100,
+                    type: "FILE"
+                },
+                {
+                    path: "",
+                    name: "mocked_folder1/",
+                    type: "DIRECTORY"
+                }
+            ];
+        } else {
+            mockedResponse = [
+                {
+                    path: "",
+                    name: "mocked_inner_file.txt",
+                    size: 100,
+                    type: "FILE"
+                }
+            ];
+        }
+
+        return mockedResponse.map(ob => mapToFrontFormat(ob));
     }
 
     console.log("ЗАпрос на содержимое папки: " + folderName);
@@ -42,11 +56,11 @@ export const sendGetFolderContent = async (folderName = "") => {
         throwSpecifyException(response.status, errorMessage);
     }
 
-    let direcotry = await response.json();
+    let directory = await response.json();
     console.log("Получен контент из папки: " + folderName);
-    console.log(direcotry);
+    console.log(directory);
 
-    const oldDir = direcotry.map(ob => mapToFrontFormat(ob));
+    const oldDir = directory.map(ob => mapToFrontFormat(ob));
     console.log("Контент смаплен для формата фронтенда: ");
     console.log(oldDir);
     return oldDir;
