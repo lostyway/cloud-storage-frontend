@@ -27,9 +27,6 @@ export async function sendUpload(files, updateDownloadTask, updateTask, uploadTa
         console.log("Отправляем файлы на бэк ");
 
         const response = await axios.post(API_FILES, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
             withCredentials: true,
             onUploadProgress: (progressEvent) => {
                 updateTask(uploadTask, "progress", "Загружаем... " + bytes(progressEvent.rate) + "/c");
